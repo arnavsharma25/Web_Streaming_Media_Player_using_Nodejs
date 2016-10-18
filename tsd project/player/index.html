@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<center><font size="20"><b><U>RENDERER</U></b></font></center>
+        <meta charset="UTF-8">
+        <title>Player</title>
+        <script src="https://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+    </head>
+    <body bgcolor="#A4A4A4">
+		<script>
+            var sock = new SockJS('http://192.168.1.177:3000');
+
+            sock.onmessage = function(message) {
+                var player = document.getElementById("player"),
+                    type = message.data.split(':')[0];
+
+                switch (type) {
+                case 'load':
+                    var source = document.createElement('source');
+                    source.setAttribute('src', "player/videos/" + message.data.split(':')[1]);
+
+                    player.appendChild(source);
+                    player.play();
+
+                case 'play':
+                    player.play();
+                    break;
+
+                case 'pause':
+                    player.pause();
+                    break;
+
+                case 'rewind':
+					var amount=0.5;
+                    var seekToTime = player.currentTime; //- 0.5 //amount;
+                
+					//if (seekToTime < 0 || seekToTime > player.duration)
+                      //  return;
+
+                    player.currentTime = seekToTime - 0.5;
+                    
+					//var now=document.getElementById("video").currentTime;
+					//document.getElementById("video").currentTime=now-10;
+					
+					break;
+				
+				case 'forward':
+					var amount=0.5;
+                    var seekToTime = player.currentTime + 0.5 //amount;
+                
+					if (seekToTime < 0 || seekToTime > player.duration)
+                        return;
+
+                    player.currentTime += seekToTime;
+                    break;
+					
+				case 'mute':	
+					player.muted= true;
+					break;
+										
+				case 'unmute':	
+					player.muted= false;	
+					break;
+                
+				case 'reset':
+                    location.reload();
+                    break;	
+				
+                }
+            };
+        </script>
+		
+		<br>
+		<br>
+		<br>
+		<br>
+		<center> 
+		
+		<video id="player" preload="none">
+            Your browser does not support the video tag.
+        </video>
+		<center>
+    </body>
+</html>

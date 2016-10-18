@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <center><font size="20"><b><U>CONTROLLER</U><BR><BR></b></font></center>
+		<meta charset="UTF-8" />
+        <title>Remote</title>
+        <script src="https://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+        <script>
+            function getVideos() {
+                var xhr;
+
+                if (window.XMLHttpRequest)
+                    xhr = new XMLHttpRequest();
+                else
+                    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var videos = xhr.responseText.split(','),
+                            list = "";
+
+                        for (var i = 0; i < videos.length; i++)
+                            list += "<li>" + videos[i] + "</li>"
+
+                        document.getElementById("list").innerHTML = list;
+                    }
+                }
+
+                xhr.open("GET", "http://192.168.1.177:8081", true);
+                xhr.send();
+            }
+
+            var sock = new SockJS('http://192.168.1.177:3001');
+
+            function loadPressed() {
+                sock.send("load:" + document.getElementById("name").value);
+            }
+
+            function send(signal) {
+                sock.send(signal);
+            }
+        </script>
+    </head>
+    <body bgcolor="#A4A4A4">
+        <center>
+		<label>
+            <b>LIST OF VIDEOS IN SERVER DATABASE</b>
+        </label>
+		
+        <br>
+		
+        <ul id="list"><br></ul>
+        
+		<script>
+			getVideos();
+		</script>
+		
+        <label>Enter the file name: </label> <input type="text" id='name' size="35"> <button onclick="loadPressed();">Load</button> <br><br>
+        <button class="classname" onclick="send('rewind:');">Rewind</button>
+		<button class="classname" onclick="send('play:');">Play</button>
+        <button class="classname" onclick="send('forward:');">Forward</button><br><br>
+		<button class="classname" onclick="send('pause:');">Pause</button>
+        <button class="classname" onclick="send('reset:');">Reset</button><br><br>
+		<button class="classname" onclick="send('mute:');">Mute</button>
+		<button class="classname" onclick="send('unmute:');">Unmute</button>
+		</center>
+<style>
+	.classname {
+	-moz-box-shadow:inset 0px 1px 0px 0px #fed897;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #fed897;
+	box-shadow:inset 0px 1px 0px 0px #fed897;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f6b33d), color-stop(1, #d29105) );
+	background:-moz-linear-gradient( center top, #f6b33d 5%, #d29105 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6b33d', endColorstr='#d29105');
+	background-color:#f6b33d;
+	-webkit-border-top-left-radius:20px;
+	-moz-border-radius-topleft:20px;
+	border-top-left-radius:20px;
+	-webkit-border-top-right-radius:20px;
+	-moz-border-radius-topright:20px;
+	border-top-right-radius:20px;
+	-webkit-border-bottom-right-radius:20px;
+	-moz-border-radius-bottomright:20px;
+	border-bottom-right-radius:20px;
+	-webkit-border-bottom-left-radius:20px;
+	-moz-border-radius-bottomleft:20px;
+	border-bottom-left-radius:20px;
+	text-indent:0;
+	border:1px solid #eda933;
+	display:inline-block;
+	color:#ffffff;
+	font-family:Comic Sans MS;
+	font-size:15px;
+	font-weight:bold;
+	font-style:normal;
+	height:50px;
+	line-height:50px;
+	width:100px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #cd8a15;
+}
+.classname:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #d29105), color-stop(1, #f6b33d) );
+	background:-moz-linear-gradient( center top, #d29105 5%, #f6b33d 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d29105', endColorstr='#f6b33d');
+	background-color:#d29105;
+}.classname:active {
+	position:relative;
+	top:1px;
+}
+</style>
+	</body>
+</html>
