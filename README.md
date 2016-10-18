@@ -1,10 +1,10 @@
 # Web_Streaming_Media_Player_using_Nodejs
 
 Controller:<br />
-In our project, controller resides on a mobile device (android) which provides user interface to the user and receives commands from the user. It redirects to the local server in a laptop where we can select the media (audio or video) which we want to play, pause, stop, forward, or rewind in the renderer (laptop).<br />
+The controller resides on a mobile device (android) which provides user interface to the user and receives commands from the user. It redirects to the local server in a laptop where we can select the media (audio or video) which we want to play, pause, stop, forward, or rewind in the renderer (laptop).<br />
 <br />
 Renderer:<br />
-This entity in our project resides in a laptop and receives request from the controller. Renderer requests media (e.g. a song or a video clip) from the Server and render the contents under the control of the Controller.<br />
+This entity resides in a laptop and receives request from the controller. Renderer requests media (e.g. a song or a video clip) from the Server and render the contents under the control of the Controller.<br />
 <br />
 Server:<br />
 Server manages and provides media (e.g. audio or video) to the Renderer. It also receives requests from the Controller for media management.<br />
